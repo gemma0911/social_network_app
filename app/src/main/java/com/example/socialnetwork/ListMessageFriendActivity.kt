@@ -1,18 +1,20 @@
 package com.example.socialnetwork
 
+import android.content.ContentValues.TAG
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialnetwork.adapter.MessageAdapter
-import com.example.socialnetwork.adapter.MessageAdapter.Companion.THE_FIRST_VIEW
-import com.example.socialnetwork.adapter.MessageAdapter.Companion.THE_SECOND_VIEW
-import com.example.socialnetwork.databinding.ActivityListMessageFriendBinding
 import com.example.socialnetwork.model.Message
+import com.example.socialnetwork.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 
 class ListMessageFriendActivity : AppCompatActivity() {
@@ -40,6 +42,9 @@ class ListMessageFriendActivity : AppCompatActivity() {
 
         senderRoom = uri + senderUid
         receiverRoom = senderUid + uri
+
+        Log.d(TAG,"$senderRoom")
+        Log.d(TAG,"$receiverRoom")
 
         var imageView = findViewById<ImageView>(R.id.imageFrom)
         findViewById<TextView>(R.id.nameFrom).text = name
@@ -82,8 +87,12 @@ class ListMessageFriendActivity : AppCompatActivity() {
                     mDbRef.child("chats").child(receiverRoom!!).child("message").push()
                         .setValue(messageObject)
                 }
+            chatRecycleView.scrollToPosition(messageList.size -1)
             messageBox.setText("")
         }
 
+        messageBox.setOnClickListener {
+            chatRecycleView.scrollToPosition(messageList.size - 1)
+        }
     }
 }

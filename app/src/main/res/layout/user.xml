@@ -3,9 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#1B202D"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
     android:layout_height="wrap_content">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -28,7 +25,7 @@
         android:fontFamily="@font/poppins_bold"
         android:text="Danny"
         android:layout_marginTop="20dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="15dp"
         app:layout_constraintStart_toEndOf="@+id/imageUser"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,7 +34,7 @@
     <TextView
         android:layout_marginLeft="18dp"
         android:fontFamily="@font/poppins_light"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bạn có khỏe không ?"
@@ -49,7 +46,7 @@
         android:id="@+id/textView6"
         android:layout_marginLeft="25dp"
         android:fontFamily="@font/poppins_light"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="8:30"

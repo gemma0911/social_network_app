@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.socialnetwork.model.User
 import com.google.firebase.database.*
-import com.example.socialnetwork.MainActivity.Companion.KEY_USER
+
 class UserRepository() {
 
     private val databaseReference : DatabaseReference = FirebaseDatabase.getInstance().reference
@@ -20,8 +20,7 @@ class UserRepository() {
     }
     fun loadUsers(userList : MutableLiveData<List<User>>){
         var query = databaseReference.child("users")
-//            .orderByChild("uri").equalTo(KEY_USER)
-        query.addValueEventListener(object : ValueEventListener{
+        query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     val _userList : List<User> = snapshot.children.map { dataSnapshot ->

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.socialnetwork.repository.UserRepository
-
 class UserViewModel() : ViewModel() {
 
     private val repository : UserRepository = UserRepository().getInstance()
@@ -14,5 +13,4 @@ class UserViewModel() : ViewModel() {
     init {
         repository.loadUsers(_allUsers)
     }
-
 }
