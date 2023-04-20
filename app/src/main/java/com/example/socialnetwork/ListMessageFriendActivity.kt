@@ -57,7 +57,7 @@ class ListMessageFriendActivity : AppCompatActivity() {
         messageBox = findViewById(R.id.editText2)
         sendButton = findViewById(R.id.imageButton)
         messageList = ArrayList()
-        messageAdapter = MessageAdapter(this,messageList)
+
 
         chatRecycleView.layoutManager = LinearLayoutManager(this)
         chatRecycleView.adapter = messageAdapter
@@ -75,7 +75,6 @@ class ListMessageFriendActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
                 }
-
             })
 
         sendButton.setOnClickListener {
