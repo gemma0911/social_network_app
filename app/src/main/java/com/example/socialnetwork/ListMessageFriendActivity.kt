@@ -58,6 +58,7 @@ class ListMessageFriendActivity : AppCompatActivity() {
         sendButton = findViewById(R.id.imageButton)
         messageList = ArrayList()
 
+        messageAdapter = MessageAdapter(this,messageList)
 
         chatRecycleView.layoutManager = LinearLayoutManager(this)
         chatRecycleView.adapter = messageAdapter
