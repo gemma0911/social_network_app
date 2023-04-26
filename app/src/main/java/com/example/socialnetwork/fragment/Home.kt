@@ -14,6 +14,8 @@ import com.example.socialnetwork.R
 import com.example.socialnetwork.adapter.ListFriendAdapter
 import com.example.socialnetwork.model.User
 import com.example.socialnetwork.model.UserViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,6 +81,23 @@ class Home : Fragment() {
         viewModel.allUsers.observe(viewLifecycleOwner, Observer {
             adapter.updateUserList(it)
         })
+    }
+    private fun status(str : String) {
+        val ref = FirebaseDatabase.getInstance().reference.child("users").child(FirebaseAuth.getInstance().currentUser.uid)
+        val data = mapOf(
+            "status" to str
+        )
+        ref.updateChildren(data)
+    }
 
+
+    override fun onResume() {
+        super.onResume()
+        status("online")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        status("offline")
     }
 }

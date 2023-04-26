@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#1B202D"
+    android:background="@color/white"
     android:layout_marginTop="10dp"
     android:layout_height="wrap_content">
 
@@ -11,12 +11,12 @@
         android:id="@+id/sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/to_"
+        android:background="@drawable/from_"
         android:fontFamily="@font/poppins_light"
         android:padding="10dp"
         android:layout_marginLeft="30dp"
         android:text="Không làm gì hết"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

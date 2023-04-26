@@ -1,6 +1,5 @@
 package com.example.socialnetwork.adapter
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,9 +39,14 @@ class ListFriendAdapter() : RecyclerView.Adapter<ListFriendAdapter.MyViewHolder>
         holder.uri = item.uri!!
         holder.urlImage = item.urlImage!!
         holder.user = item.user!!
+        if(item.status=="online"){
+            holder.status.setBackgroundResource(R.drawable.baseline_lens_24)
+        } else {
+            holder.status.setBackgroundResource(R.drawable.bgr)
+        }
 
-        holder.textView.text = item.user
         val image = holder.image
+        holder.textView.text = item.user
         Picasso.get()
             .load(item.urlImage)
             .fit()
@@ -56,6 +60,7 @@ class ListFriendAdapter() : RecyclerView.Adapter<ListFriendAdapter.MyViewHolder>
     class  MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val textView : TextView = itemView.findViewById(R.id.nameUser)
         val image : ImageView = itemView.findViewById(R.id.imageUser)
+        val status : ImageView = itemView.findViewById(R.id.status_user)
         var uri : String = ""
         var user : String = ""
         var urlImage : String = ""

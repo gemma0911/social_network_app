@@ -1,7 +1,9 @@
 package com.example.socialnetwork
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.example.socialnetwork.fragment.Home
 

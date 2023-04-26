@@ -1,21 +1,32 @@
 package com.example.socialnetwork
-
+import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.content.ContentValues.TAG
-import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
-import android.view.View
-import android.view.ViewTreeObserver
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialnetwork.adapter.MessageAdapter
 import com.example.socialnetwork.model.Message
 import com.example.socialnetwork.model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+
 
 class ListMessageFriendActivity : AppCompatActivity() {
 
@@ -37,14 +48,31 @@ class ListMessageFriendActivity : AppCompatActivity() {
         var image = intent.getStringExtra("image")
         var name = intent.getStringExtra("name")
 
+
         val senderUid = FirebaseAuth.getInstance().currentUser.uid
         mDbRef = FirebaseDatabase.getInstance().reference
+
+        mDbRef.child("users").child(uri!!).child("status")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.value == "online") {
+                        findViewById<TextView>(R.id.status).setText(R.string.online)
+                    } else {
+                        findViewById<TextView>(R.id.status).setText(R.string.offline)
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
 
         senderRoom = uri + senderUid
         receiverRoom = senderUid + uri
 
         Log.d(TAG,"$senderRoom")
         Log.d(TAG,"$receiverRoom")
+
+
 
         var imageView = findViewById<ImageView>(R.id.imageFrom)
         findViewById<TextView>(R.id.nameFrom).text = name
@@ -80,19 +108,90 @@ class ListMessageFriendActivity : AppCompatActivity() {
 
         sendButton.setOnClickListener {
             val message = messageBox.text.toString()
-            val messageObject = Message(message,senderUid)
-            mDbRef.child("chats").child(senderRoom!!).child("message").push()
-                .setValue(messageObject)
-                .addOnSuccessListener {
-                    mDbRef.child("chats").child(receiverRoom!!).child("message").push()
-                        .setValue(messageObject)
-                }
+            if(message!=""){
+                val messageObject = Message(message,senderUid)
+                mDbRef.child("chats").child(senderRoom!!).child("message").push()
+                    .setValue(messageObject)
+                    .addOnSuccessListener {
+                        mDbRef.child("chats").child(receiverRoom!!).child("message").push()
+                            .setValue(messageObject)
+                    }
+            }
             chatRecycleView.scrollToPosition(messageList.size -1)
             messageBox.setText("")
+        }
+
+        findViewById<ImageButton>(R.id.sendImage).setOnClickListener {
+            addTask()
         }
 
         messageBox.setOnClickListener {
             chatRecycleView.scrollToPosition(messageList.size - 1)
         }
+
+
+        messageBox.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                findViewById<ImageButton>(R.id.sendImage).setBackgroundResource(R.drawable.baseline_camera_alt_24)
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                findViewById<ImageButton>(R.id.sendImage).setBackgroundResource(R.drawable.bgr)
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if(messageBox.text.toString().isEmpty()){
+                    findViewById<ImageButton>(R.id.sendImage).setBackgroundResource(R.drawable.baseline_camera_alt_24)
+                } else {
+                    findViewById<ImageButton>(R.id.sendImage).setBackgroundResource(R.drawable.bgr)
+                }
+            }
+        })
+    }
+
+    @SuppressLint("Range")
+    private fun getAllImageUris(): ArrayList<Uri>? {
+        val imageUris: ArrayList<Uri> = ArrayList()
+        val cursor = contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, arrayOf(MediaStore.Images.Media._ID),
+            null,
+            null,
+            null
+        )
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                val id = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media._ID))
+                val uri =
+                    ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+                imageUris.add(uri)
+                Log.d(TAG,"11$uri")
+            }
+            cursor.close()
+        }
+        return imageUris
+    }
+
+    private fun addTask() {
+        var bottomSheet = getAllImageUris()?.let { BottomSheet(it) }
+        bottomSheet?.show(supportFragmentManager,bottomSheet.tag)
+    }
+
+    private fun status(str : String) {
+        val ref = FirebaseDatabase.getInstance().reference.child("users").child(FirebaseAuth.getInstance().currentUser.uid)
+        val data = mapOf(
+            "status" to str
+        )
+        ref.updateChildren(data)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        status("online")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        status("offline")
     }
 }

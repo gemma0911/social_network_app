@@ -1,14 +1,17 @@
 package com.example.socialnetwork
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.example.socialnetwork.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -53,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
     private fun signInWithEmailPassword(email : String,pass : String) {
 
@@ -70,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email,pass)
             .addOnCompleteListener (this) {
                 if (it.isSuccessful) {
+                    status("online")
                     Toast.makeText(this, "Successfully LoggedIn", Toast.LENGTH_SHORT).show()
                     var intent = Intent(this,IndexActivity::class.java)
                     KEY_USER = FirebaseAuth.getInstance().uid!!
@@ -79,6 +82,14 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this,"Tài khoản hoặc mật khẩu không chính xác", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun status(str : String) {
+        val ref = FirebaseDatabase.getInstance().reference.child("users").child(FirebaseAuth.getInstance().currentUser.uid)
+        val data = mapOf(
+            "status" to str
+        )
+        ref.updateChildren(data)
     }
 
     override fun onStart() {

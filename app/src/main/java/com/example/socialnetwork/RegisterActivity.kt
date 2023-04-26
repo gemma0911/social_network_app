@@ -75,7 +75,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUser(imageUrl : String) {
         val uid = FirebaseAuth.getInstance().uid?:""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val user = User(uid,imageUrl,binding.editTextUser.text.toString())
+        val user = User(uid,imageUrl,binding.editTextUser.text.toString(),"offline")
         ref.setValue(user)
             .addOnCompleteListener{
             }
