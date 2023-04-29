@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageUser"
+        android:id="@+id/imageUser1"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_margin="20dp"
@@ -18,7 +17,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/nameUser"
+        android:id="@+id/nameUser1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="18dp"
@@ -27,8 +26,18 @@
         android:textColor="@color/black"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageUser"
+        app:layout_constraintStart_toEndOf="@+id/imageUser1"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:background="@drawable/button"
+        android:layout_width="51dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_group_add_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

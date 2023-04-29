@@ -82,6 +82,7 @@ class Home : Fragment() {
             adapter.updateUserList(it)
         })
     }
+
     private fun status(str : String) {
         val ref = FirebaseDatabase.getInstance().reference.child("users").child(FirebaseAuth.getInstance().currentUser.uid)
         val data = mapOf(
@@ -89,7 +90,6 @@ class Home : Fragment() {
         )
         ref.updateChildren(data)
     }
-
 
     override fun onResume() {
         super.onResume()

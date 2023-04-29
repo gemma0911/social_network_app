@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="Chặn tin nhắn"
+        android:id="@+id/block"
+        android:icon="@drawable/baseline_block_24"
+        />
+    <item android:title="Xóa tin nhắn"
+        android:id="@+id/delete"
+        android:icon="@drawable/baseline_delete_24"
+        />
+</menu>

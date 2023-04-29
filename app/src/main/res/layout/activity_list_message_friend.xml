@@ -8,43 +8,18 @@
     android:id="@+id/activityRoot"
     tools:context=".ListMessageFriendActivity">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageFrom"
-        android:layout_width="44dp"
-        android:layout_marginLeft="10dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintStart_toEndOf="@+id/imageButton3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/circle"
-        app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
-
-    <TextView
-        android:id="@+id/nameFrom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Jone Shape"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/imageFrom"
-        app:layout_constraintStart_toEndOf="@+id/imageFrom"
-        app:layout_constraintTop_toTopOf="@+id/imageFrom"
-        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listMessage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="25dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageFrom"
+        app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
@@ -70,38 +45,16 @@
         app:layout_constraintEnd_toEndOf="@+id/editText2"
         app:layout_constraintTop_toTopOf="@+id/editText2"
         app:srcCompat="@drawable/send" />
-
-    <ImageButton
-        android:layout_marginLeft="20dp"
-        android:id="@+id/imageButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button"
-        app:layout_constraintBottom_toBottomOf="@+id/imageFrom"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageFrom"
-        app:srcCompat="@drawable/baseline_arrow_back_24" />
-
-    <TextView
-        android:textColor="#771F98"
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/online"
-        app:layout_constraintBottom_toBottomOf="@+id/imageFrom"
-        app:layout_constraintEnd_toEndOf="@+id/nameFrom"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/nameFrom"
-        app:layout_constraintTop_toTopOf="@+id/imageFrom"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <View
+    <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/view"
-        android:background="@drawable/boder_view"
-        android:layout_width="wrap_content"
+        app:menu="@menu/bottomsheet_menu"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/listMessage"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="BottomAppBar,MissingConstraints" />
 
     <ImageButton
         android:layout_marginLeft="10dp"
@@ -113,12 +66,50 @@
         app:layout_constraintStart_toStartOf="@+id/editText2"
         app:layout_constraintTop_toTopOf="@+id/editText2" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="@+id/editText2"
-        tools:ignore="MissingConstraints" />
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/online"
+        android:textColor="#771F98"
+        app:layout_constraintBottom_toBottomOf="@+id/imageFrom"
+        app:layout_constraintEnd_toEndOf="@+id/nameFrom"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/nameFrom"
+        app:layout_constraintTop_toTopOf="@+id/imageFrom"
+        app:layout_constraintVertical_bias="0.774" />
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageFrom"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/listMessage"
+        app:layout_constraintStart_toEndOf="@+id/imageButton3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circle"
+        app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+
+    <TextView
+        android:id="@+id/nameFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Jone Shape"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/imageFrom"
+        app:layout_constraintStart_toEndOf="@+id/imageFrom"
+        app:layout_constraintTop_toTopOf="@+id/imageFrom"
+        app:layout_constraintVertical_bias="0.0" />
+    <ImageButton
+        android:layout_marginLeft="20dp"
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        app:layout_constraintBottom_toBottomOf="@+id/imageFrom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageFrom"
+        app:srcCompat="@drawable/baseline_arrow_back_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="300dp">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:orientation="horizontal"
-        android:id="@+id/listImageView"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomNavigationView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.696"
+        app:menu="@menu/bottomsheet_menu"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="BottomAppBar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

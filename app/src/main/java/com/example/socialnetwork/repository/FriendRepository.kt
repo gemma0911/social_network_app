@@ -3,31 +3,31 @@ package com.example.socialnetwork.repository
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.socialnetwork.model.User
+import com.example.socialnetwork.model.Friend
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class UserRepository() {
-
+class FriendRepository() {
     private val databaseReference : DatabaseReference = FirebaseDatabase.getInstance().reference
-    @Volatile private var INSTANCE : UserRepository?= null
+    @Volatile private var INSTANCE : FriendRepository?= null
 
-    fun getInstance() : UserRepository {
+    fun getInstance() : FriendRepository {
         return INSTANCE ?: synchronized(this){
-            val instance = UserRepository()
+            val instance = FriendRepository()
             INSTANCE = instance
             instance
         }
     }
-    fun loadUsers(userList : MutableLiveData<List<User>>){
-        var query = databaseReference.child("users")
+    fun loadFriend(friendList : MutableLiveData<List<Friend>>){
+        var query = databaseReference.child("friend").child(FirebaseAuth.getInstance().currentUser.uid)
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
-                    val _userList : List<User> = snapshot.children.map { dataSnapshot ->
-                        dataSnapshot.getValue(User::class.java)!!
+                    val _Friend : List<Friend> = snapshot.children.map { dataSnapshot ->
+                        dataSnapshot.getValue(Friend::class.java)!!
                     }
-                    userList.postValue(_userList)
-                    Log.d(TAG,"-----------------$_userList")
+                    friendList.postValue(_Friend)
+                    Log.d(TAG,"-----------------$_Friend")
                 }catch (e : Exception){
 
                 }

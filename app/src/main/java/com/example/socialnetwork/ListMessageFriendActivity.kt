@@ -8,17 +8,22 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialnetwork.adapter.MessageAdapter
 import com.example.socialnetwork.model.Message
-import com.example.socialnetwork.model.User
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,6 +31,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import java.time.LocalTime
+import java.util.Calendar
 
 
 class ListMessageFriendActivity : AppCompatActivity() {
@@ -40,6 +47,7 @@ class ListMessageFriendActivity : AppCompatActivity() {
     var receiverRoom : String ?= null
     var senderRoom : String ?= null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_message_friend)
@@ -48,9 +56,9 @@ class ListMessageFriendActivity : AppCompatActivity() {
         var image = intent.getStringExtra("image")
         var name = intent.getStringExtra("name")
 
-
         val senderUid = FirebaseAuth.getInstance().currentUser.uid
         mDbRef = FirebaseDatabase.getInstance().reference
+
 
         mDbRef.child("users").child(uri!!).child("status")
             .addValueEventListener(object : ValueEventListener {
@@ -116,6 +124,20 @@ class ListMessageFriendActivity : AppCompatActivity() {
                         mDbRef.child("chats").child(receiverRoom!!).child("message").push()
                             .setValue(messageObject)
                     }
+                val currentTime = LocalTime.now()
+                val hour = currentTime.hour
+                val minute = currentTime.minute
+                val time = "$hour:$minute"
+                val new = mapOf(
+                    "newMess" to message,
+                    "newTime" to time
+                )
+                mDbRef.child("action").child(senderRoom!!).child("new")
+                    .updateChildren(new)
+                    .addOnSuccessListener {
+                        mDbRef.child("action").child(receiverRoom!!).child("new")
+                            .updateChildren(new)
+                    }
             }
             chatRecycleView.scrollToPosition(messageList.size -1)
             messageBox.setText("")
@@ -129,6 +151,16 @@ class ListMessageFriendActivity : AppCompatActivity() {
             chatRecycleView.scrollToPosition(messageList.size - 1)
         }
 
+        findViewById<BottomAppBar>(R.id.view).setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener { item ->
+            when(item.itemId){
+                R.id.delete -> {
+                    mDbRef.child("action").child(senderRoom!!).child("new").removeValue()
+                    mDbRef.child("chats").child(senderRoom!!).child("message").removeValue()
+                }
+
+            }
+            true
+        })
 
         messageBox.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -172,9 +204,15 @@ class ListMessageFriendActivity : AppCompatActivity() {
         return imageUris
     }
 
+
     private fun addTask() {
-        var bottomSheet = getAllImageUris()?.let { BottomSheet(it) }
-        bottomSheet?.show(supportFragmentManager,bottomSheet.tag)
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.activity_demo, null)
+        dialog.setContentView(view)
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        dialog.show()
+//        var bottomSheet = getAllImageUris()?.let { BottomSheet(it) }
+//        bottomSheet?.show(supportFragmentManager,bottomSheet.tag)
     }
 
     private fun status(str : String) {

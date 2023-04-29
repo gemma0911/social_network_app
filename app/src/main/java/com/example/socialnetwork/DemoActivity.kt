@@ -7,23 +7,18 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.socialnetwork.adapter.ImageAdapter
 
 
 class DemoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_demo)
-        val recyclerView = findViewById<RecyclerView>(R.id.listImageView)
-        val imageAdapter = ImageAdapter()
-        getAllImageUris()?.let { imageAdapter.setFilteredList(it) }
-        recyclerView.adapter = imageAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+//        setContentView(R.layout.activity_demo)
+//        val recyclerView = findViewById<RecyclerView>(R.id.listImageView)
+//        val imageAdapter = ImageAdapter()
+//        getAllImageUris()?.let { imageAdapter.setFilteredList(it) }
+//        recyclerView.adapter = imageAdapter
+//        recyclerView.layoutManager = LinearLayoutManager(this)
     }
     
 
