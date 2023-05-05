@@ -50,7 +50,7 @@ class ListFriendAdapter() : RecyclerView.Adapter<ListFriendAdapter.MyViewHolder>
 
         val senderUid = FirebaseAuth.getInstance().currentUser.uid
         mDbRef = FirebaseDatabase.getInstance().reference
-        mDbRef.child("action").child(senderUid+item.uri).child("new").child("newMess")
+        mDbRef.child("action").child(senderUid).child(item.uri!!).child("newMess")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     holder.newMess.text = snapshot.value.toString()
@@ -59,7 +59,7 @@ class ListFriendAdapter() : RecyclerView.Adapter<ListFriendAdapter.MyViewHolder>
                     TODO("Not yet implemented")
                 }
             })
-        mDbRef.child("action").child(senderUid+item.uri).child("new").child("newTime")
+        mDbRef.child("action").child(senderUid).child(item.uri!!).child("newTime")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     holder.newTime.text = snapshot.value.toString()
@@ -68,8 +68,6 @@ class ListFriendAdapter() : RecyclerView.Adapter<ListFriendAdapter.MyViewHolder>
                     TODO("Not yet implemented")
                 }
             })
-
-
 
         if(item.status=="online"){
             holder.status.setBackgroundResource(R.drawable.baseline_lens_24)

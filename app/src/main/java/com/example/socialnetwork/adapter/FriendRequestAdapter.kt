@@ -14,12 +14,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 
-class FriendAdapter() : RecyclerView.Adapter<FriendAdapter.MyViewHolder>() {
+class FriendRequestAdapter() : RecyclerView.Adapter<FriendRequestAdapter.MyViewHolder>() {
 
     private lateinit var mDbRef : DatabaseReference
     private var friendList = ArrayList<FriendModel>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.friend,parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.friend_request,parent,false)
         return MyViewHolder(itemView)
     }
 

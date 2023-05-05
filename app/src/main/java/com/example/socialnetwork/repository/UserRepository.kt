@@ -3,7 +3,9 @@ package com.example.socialnetwork.repository
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.socialnetwork.model.FriendModel
 import com.example.socialnetwork.model.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class UserRepository() {
@@ -18,7 +20,7 @@ class UserRepository() {
             instance
         }
     }
-    fun loadUsers(userList : MutableLiveData<List<User>>){
+    fun loadUsers(userList: MutableLiveData<List<User>>){
         var query = databaseReference.child("users")
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

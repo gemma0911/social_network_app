@@ -1,16 +1,11 @@
 package com.example.socialnetwork
 
 import android.annotation.SuppressLint
-import android.content.ClipData.Item
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.socialnetwork.fragment.Friend
 import com.example.socialnetwork.fragment.Home
-import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
