@@ -7,6 +7,7 @@
     tools:context="RegisterActivity">
 
     <ImageButton
+        android:scaleType="fitXY"
         android:id="@+id/image_avatar"
         android:layout_width="150dp"
         android:layout_height="150dp"

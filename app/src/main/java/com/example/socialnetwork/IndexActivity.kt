@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.socialnetwork.fragment.Friend
 import com.example.socialnetwork.fragment.Home
+import com.example.socialnetwork.fragment.Setting
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
@@ -20,6 +21,7 @@ class IndexActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.home -> replaceFragment(Home())
                 R.id.friend -> replaceFragment(Friend())
+                R.id.setting -> replaceFragment(Setting())
             }
                 true
         })

@@ -39,4 +39,24 @@ class UserRepository() {
             }
         })
     }
+
+    fun loadUsers1(userList: MutableLiveData<List<User>>){
+        var query = databaseReference.child("users")
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    val _userList : List<User> = snapshot.children.map { dataSnapshot ->
+                        dataSnapshot.getValue(User::class.java)!!
+                    }
+                    userList.postValue(_userList)
+                    Log.d(TAG,"-----------------$_userList")
+                }catch (e : Exception){
+
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 }

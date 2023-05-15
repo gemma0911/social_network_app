@@ -50,25 +50,37 @@ class ListFriendAdapter() : RecyclerView.Adapter<ListFriendAdapter.MyViewHolder>
 
         val senderUid = FirebaseAuth.getInstance().currentUser.uid
         mDbRef = FirebaseDatabase.getInstance().reference
-        mDbRef.child("action").child(senderUid).child(item.uri!!).child("newMess")
+        mDbRef.child("action").child(item.uri+senderUid).child(item.uri!!).child("new").child("newMess")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    holder.newMess.text = snapshot.value.toString()
+                    if(snapshot.value.toString()==""){
+                        holder.newMess.text = ""
+                    } else {
+                        holder.newMess.text = snapshot.value.toString()
+                    }
                 }
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
                 }
             })
-        mDbRef.child("action").child(senderUid).child(item.uri!!).child("newTime")
+        mDbRef.child("action").child(item.uri+senderUid).child(item.uri!!).child("new").child("newTime")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    holder.newTime.text = snapshot.value.toString()
+                    if(snapshot.value.toString()==""){
+                        holder.newTime.text = ""
+                    } else {
+                        holder.newTime.text = snapshot.value.toString()
+                        if(item.status=="online"){
+                            holder.status.setBackgroundResource(R.drawable.baseline_lens_24)
+                        } else {
+                            holder.status.setBackgroundResource(R.drawable.bgr)
+                        }
+                    }
                 }
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
                 }
             })
-
         if(item.status=="online"){
             holder.status.setBackgroundResource(R.drawable.baseline_lens_24)
         } else {

@@ -1,5 +1,6 @@
 package com.example.socialnetwork.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +38,7 @@ class Home : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var list : ArrayList<User>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -78,10 +81,38 @@ class Home : Fragment() {
         userRecyclerView.setHasFixedSize(true)
         adapter = ListFriendAdapter()
         userRecyclerView.adapter = adapter
+
+
         viewModel = ViewModelProvider(this)[UserViewModel::class.java]
-        viewModel.allUsers.observe(viewLifecycleOwner, Observer {
-            adapter.updateUserList(it)
+        viewModel.allUsers1.observe(viewLifecycleOwner, Observer {
+            list = (it as ArrayList<User>?)!!
+            list?.let { it1 -> adapter.updateUserList(it1) }
         })
+
+        val search : androidx.appcompat.widget.SearchView = view.findViewById(R.id.edit_search)
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                search(newText!!)
+                return true
+            }
+        })
+    }
+
+    private fun search(str : String) {
+        var item : ArrayList<User> = ArrayList()
+        for(i in list!!) {
+            if(i.user!!.lowercase().contains(str.lowercase())){
+                item.add(i)
+            }
+            if(item.isEmpty()) {
+            } else {
+                adapter.updateUserList(item)
+            }
+        }
     }
 
     private fun status(str : String) {

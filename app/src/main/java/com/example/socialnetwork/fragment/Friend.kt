@@ -17,6 +17,7 @@ import com.example.socialnetwork.databinding.FragmentFriendBinding
 import com.example.socialnetwork.databinding.FriendBinding
 import com.example.socialnetwork.model.FriendMake
 import com.example.socialnetwork.model.FriendRequest
+import com.example.socialnetwork.model.User
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,6 +88,9 @@ class Friend : Fragment() {
                 adapterFriend.updateFriendList(itt)
             })
         }
+
+
+
         view.findViewById<Button>(R.id.button3).setOnClickListener {
             friendRecyclerView.adapter = adapterFriend1
             viewModel1.allFriend.observe(viewLifecycleOwner, Observer { item ->

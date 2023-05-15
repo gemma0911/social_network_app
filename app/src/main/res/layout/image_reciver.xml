@@ -8,6 +8,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:scaleType="fitXY"
         android:id="@+id/rc"
         android:layout_marginRight="30dp"
         android:layout_width="150dp"
@@ -15,4 +16,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rc"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_more_vert_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

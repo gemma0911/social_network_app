@@ -10,7 +10,11 @@ class UserViewModel() : ViewModel() {
     private val _allUsers = MutableLiveData<List<User>>()
     val allUsers : LiveData<List<User>> = _allUsers
 
+
+    private val _allUsers1 = MutableLiveData<List<User>>()
+    val allUsers1 : LiveData<List<User>> = _allUsers1
     init {
         repository.loadUsers(_allUsers)
+        repository.loadUsers(_allUsers1)
     }
 }

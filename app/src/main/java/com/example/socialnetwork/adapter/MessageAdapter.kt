@@ -1,20 +1,27 @@
 package com.example.socialnetwork.adapter
 
+import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialnetwork.R
 import com.example.socialnetwork.model.Message
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Picasso.LoadedFrom
+import java.io.File
+import java.io.FileOutputStream
 
 
 class MessageAdapter(private val context : Context,private val list1: ArrayList<Message>) :
@@ -78,6 +85,19 @@ class MessageAdapter(private val context : Context,private val list1: ArrayList<
                     .load(currentMessage.imageUrl)
                     .fit()
                     .into(viewHoder.receiverImage)
+                viewHoder.receiverImage.setOnClickListener {
+                    var dialog  = Dialog(context)
+                    dialog.setContentView(R.layout.image)
+
+                    Picasso
+                        .get()
+                        .load(currentMessage.imageUrl)
+                        .fit()
+                        .into(dialog.findViewById<ImageView>(R.id.anh2))
+                    dialog.findViewById<Button>(R.id.button6).setOnClickListener {
+                    }
+                    dialog.show()
+                }
             }
         } else if(holder.javaClass == Sender::class.java) {
             if(currentMessage.imageUrl==null){
@@ -92,10 +112,34 @@ class MessageAdapter(private val context : Context,private val list1: ArrayList<
                     .load(currentMessage.imageUrl)
                     .fit()
                     .into(viewHoder.senderImage)
+                viewHoder.senderImage.setOnClickListener {
+                    var dialog = Dialog(context)
+
+                    dialog.setContentView(R.layout.image)
+                    Picasso
+                        .get()
+                        .load(currentMessage.imageUrl)
+                        .fit()
+                        .into(dialog.findViewById<ImageView>(R.id.anh2))
+                    dialog.findViewById<Button>(R.id.button6).setOnClickListener {
+
+                    }
+                    dialog.show()
+                }
             }
         }
     }
-
+    fun saveImage(context: Context, b: Bitmap, imageName: String?) {
+        val foStream: FileOutputStream
+        try {
+            foStream = context.openFileOutput(imageName, Context.MODE_PRIVATE)
+            b.compress(Bitmap.CompressFormat.PNG, 100, foStream)
+            foStream.close()
+        } catch (e: Exception) {
+            Log.d("saveImage", "Exception 2, Something went wrong!")
+            e.printStackTrace()
+        }
+    }
     override fun getItemViewType(position: Int): Int {
         val currrentMessage = list1[position]
         return if(FirebaseAuth.getInstance().currentUser.uid?.equals(currrentMessage.senderId)!!){

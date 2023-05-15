@@ -1,6 +1,7 @@
 package com.example.socialnetwork
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ContentUris
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -44,7 +45,7 @@ class ListMessageFriendActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList : ArrayList<Message>
     private lateinit var mDbRef : DatabaseReference
-
+    private lateinit var dialog : AlertDialog
     var receiverRoom : String ?= null
     var senderRoom : String ?= null
 
@@ -80,7 +81,6 @@ class ListMessageFriendActivity : AppCompatActivity() {
 
         Log.d(TAG,"$senderRoom")
         Log.d(TAG,"$receiverRoom")
-
 
 
         var imageView = findViewById<ImageView>(R.id.imageFrom)
@@ -134,10 +134,10 @@ class ListMessageFriendActivity : AppCompatActivity() {
                     "newMess" to message,
                     "newTime" to time
                 )
-                mDbRef.child("action").child(senderRoom!!).child("new")
+                mDbRef.child("action").child(senderRoom!!).child(uri).child("new")
                     .updateChildren(new)
                     .addOnSuccessListener {
-                        mDbRef.child("action").child(receiverRoom!!).child("new")
+                        mDbRef.child("action").child(receiverRoom!!).child(senderUid).child("new")
                             .updateChildren(new)
                     }
             } else {
@@ -160,9 +160,13 @@ class ListMessageFriendActivity : AppCompatActivity() {
         }
 
         findViewById<BottomAppBar>(R.id.view).setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener { item ->
+            val new = mapOf(
+                "newMess" to "",
+                "newTime" to ""
+            )
             when(item.itemId){
                 R.id.delete -> {
-                    mDbRef.child("action").child(senderRoom!!).child("new").removeValue()
+                    mDbRef.child("action").child(senderRoom!!).child(uri).child("new").updateChildren(new)
                     mDbRef.child("chats").child(senderRoom!!).child("message").removeValue()
                 }
 
@@ -192,6 +196,7 @@ class ListMessageFriendActivity : AppCompatActivity() {
     }
 
     private fun saveImages(imageUrl : String) {
+        dialog!!.show()
         val mess = Message("",FirebaseAuth.getInstance().currentUser.uid,imageUrl)
         mDbRef.child("chats").child(senderRoom!!).child("message").push()
             .setValue(mess)
@@ -202,6 +207,11 @@ class ListMessageFriendActivity : AppCompatActivity() {
     }
     private fun upLoadImageFirebase () {
         if(imageUrl1==null) return
+        dialog = AlertDialog.Builder(this)
+        .setCancelable(false)
+            .setMessage("Please wait...")
+            .create()
+        dialog.show()
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
         ref.putFile(imageUrl1!!)
@@ -209,6 +219,7 @@ class ListMessageFriendActivity : AppCompatActivity() {
                 ref.downloadUrl.addOnSuccessListener {
                     Log.d("RegisterActivity","$it")
                     saveImages(it.toString())
+                    dialog.dismiss()
                 }
             }
     }

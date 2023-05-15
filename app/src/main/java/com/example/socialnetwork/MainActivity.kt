@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     var passE = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         var sharePrefs : SharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE)
         val editor : SharedPreferences.Editor = sharePrefs.edit()
 
@@ -57,6 +58,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun logout() {
+        var sharePrefs : SharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = sharePrefs.edit()
+        editor.clear().commit()
+        emailE = ""
+        passE = ""
+    }
     private fun signInWithEmailPassword(email : String,pass : String) {
 
         if( email.isEmpty() || pass.isEmpty() ) {
@@ -77,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                     var intent = Intent(this,IndexActivity::class.java)
                     KEY_USER = FirebaseAuth.getInstance().uid!!
                     startActivity(intent)
-                    finish()
+//                    finish()
                 } else {
                     Toast.makeText(this,"Tài khoản hoặc mật khẩu không chính xác", Toast.LENGTH_SHORT).show()
                 }
@@ -92,10 +101,10 @@ class MainActivity : AppCompatActivity() {
         ref.updateChildren(data)
     }
 
-    override fun onStart() {
-        super.onStart()
-        if(emailE != "" && passE != "") {
-            signInWithEmailPassword(emailE,passE)
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        if(emailE != "" && passE != "") {
+//            signInWithEmailPassword(emailE,passE)
+//        }
+//    }
 }

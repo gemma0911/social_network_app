@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import com.example.socialnetwork.databinding.ActivityRegisterBinding
 import com.example.socialnetwork.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -68,6 +69,7 @@ class RegisterActivity : AppCompatActivity() {
                 ref.downloadUrl.addOnSuccessListener {
                     Log.d("RegisterActivity","$it")
                     saveUser(it.toString())
+                    Toast.makeText(this,"Tạo tài khoản thành công",Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -75,7 +77,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUser(imageUrl : String) {
         val uid = FirebaseAuth.getInstance().uid?:""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val user = User(uid,imageUrl,binding.editTextUser.text.toString(),"offline")
+        val user = User(uid,imageUrl,binding.editTextUser.text.toString())
         ref.setValue(user)
             .addOnCompleteListener{
             }
